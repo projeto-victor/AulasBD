@@ -1,0 +1,144 @@
+C:\Users\Alunos>
+C:\Users\Alunos> c:\xampp\mysql\bin
+'c:\xampp\mysql\bin' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+
+C:\Users\Alunos>cd c:\xampp\mysql\bin
+
+c:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 54
+Server version: 10.4.17-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| revisao            |
+| test               |
+| teste              |
++--------------------+
+7 rows in set (0.001 sec)
+
+//erros
+
+MariaDB [(none)]> select * from clientes
+    -> ,
+    -> ;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> select * from clientes
+    -> ;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> show tables
+    -> ;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use clientes;
+ERROR 1049 (42000): Unknown database 'clientes'
+MariaDB [(none)]> select * from clientes
+    -> ;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]>
+
+//erros^
+
+MariaDB [(none)]> use teste
+Database changed
+MariaDB [teste]> ;
+ERROR: No query specified
+
+MariaDB [teste]> show tables
+    -> ;
++-----------------+
+| Tables_in_teste |
++-----------------+
+| clientes        |
+| compras         |
+| produtos        |
++-----------------+
+3 rows in set (0.000 sec)
+
+MariaDB [teste]> describe clientes
+    -> ;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id_cliente   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nome_cliente | varchar(255) | YES  |     | NULL    |                |
+| email        | varchar(255) | YES  |     | NULL    |                |
+| estado       | varchar(2)   | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.010 sec)
+
+MariaDB [teste]> insert into clientes(nome_cliente, email, estado)
+    -> values('etec mcm','etec.mcm@gmail.com','SP');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [teste]> select * from clientes
+    -> ;
++------------+--------------+--------------------+--------+
+| id_cliente | nome_cliente | email              | estado |
++------------+--------------+--------------------+--------+
+|          1 | etec mcm     | etec.mcm@gmail.com | SP     |
++------------+--------------+--------------------+--------+
+1 row in set (0.000 sec)
+//erros
+MariaDB [teste]> insert into clientes(nome,email,estado)
+    -> values('abigailson','abiga.ilson@yahool.com','RJ');
+ERROR 1054 (42S22): Unknown column 'nome' in 'field list'
+//erros^
+MariaDB [teste]> insert into clientes(nome_cliente,email,estado)
+    -> values('abigailson','abiga.ilson@yahool.com','RJ');
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [teste]> select * from clientes
+    -> ;
++------------+--------------+------------------------+--------+
+| id_cliente | nome_cliente | email                  | estado |
++------------+--------------+------------------------+--------+
+|          1 | etec mcm     | etec.mcm@gmail.com     | SP     |
+|          2 | abigailson   | abiga.ilson@yahool.com | RJ     |
++------------+--------------+------------------------+--------+
+2 rows in set (0.000 sec)
+
+//erros
+
+MariaDB [teste]> insert into clientes(nome_cliente,email,estado)
+    -> values('migay','migay.6924@gmail.com','SP'),
+    -> values('Victor','victor.sigma.alpha@gmail.com','SP'),
+    -> values('Daniel','misogenia.suprema.daniel@gmail.com','SP');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values('Victor','victor.sigma.alpha@gmail.com','SP'),
+values('Daniel','misoge...' at line 3
+MariaDB [teste]> insert into clientes(nome_cliente,email,estado)
+    -> values('migay','migay.6924@gmail.com','SP');
+Query OK, 1 row affected (0.010 sec)
+
+//erros^
+
+MariaDB [teste]> insert into clientes(nome_cliente,email,estado)
+    -> values('Victor','victor.sigma.alpha@gmail.com','SP'),
+    -> ('Daniel','misogenia.suprema.daniel@gmail.com','SP');
+Query OK, 2 rows affected (0.010 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [teste]> select * from clientes
+    -> ;
++------------+--------------+------------------------------------+--------+
+| id_cliente | nome_cliente | email                              | estado |
++------------+--------------+------------------------------------+--------+
+|          1 | etec mcm     | etec.mcm@gmail.com                 | SP     |
+|          2 | abigailson   | abiga.ilson@yahool.com             | RJ     |
+|          3 | migay        | migay.6924@gmail.com               | SP     |
+|          4 | Victor       | victor.sigma.alpha@gmail.com       | SP     |
+|          5 | Daniel       | misogenia.suprema.daniel@gmail.com | SP     |
++------------+--------------+------------------------------------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [teste]>
